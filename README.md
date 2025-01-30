@@ -13,9 +13,13 @@ We have a fused silica hollow capillary fibre with radius r (usually<500 microme
 
 <ins>Code Quickstart</ins>
 
-The code is quite simple. We fix the fibre radius r to a certain value. You can think of your radius as setting the "scale" of your system, in the sense that the bigger you make r the more pump pulse energy you need and the longer the fiber will be. This is a very approximate explanation. For more detail please see the published paper on the topic . 
+This code works by having the BO algorithm decide on a given set of system parameters values, send them to Luna.jl where a simulation with those parameter values is run. The Luna.jl then evaluates the objective function (OF), which is the function that BO is trying to maximise. In this case this is the peak power of the RDW. The OF value is then sent back to the BO algorithm, which, with this new data decides on which next set of system parameter values to probe. This continues until the allocated number of allowed simulation runs is exhausted. At that point the BO algorithm sends you the OF value that was largest out of all the points probed. Note that () of the allowe simulation runs are used to essetnially probe random sets of system parameter values to essentially get some training data. Then () number of simulation runs are done where the algorithm is actually trying to maximise the OF. I would set () to 20 and () to 200. This makes the code run in around 12 hours.
 
-This code works by having the BO algorithm decide on a given set of system parameters values, send them to Luna.jl where a simulation of that 
+Now to discuss the system paremetsr.We fix the fibre radius r to a certain value. You can think of your radius as setting the "scale" of your system, in the sense that the bigger you make r the more pump pulse energy you need and the longer the fiber will be. This is a very approximate explanation. For more detail please see the published paper on the topic. The OF variables are T,P,L and P_pump. P_pump_scaled is the peak power of the pump pulse but expressed as a ratio to the critical power for self-focusing P_crit. So P_pump_scaled=P_pump/P_crit. P_crit is the peak power of a laser pulse necceary to initiate self-focusing in the noble gas that fills the fiber. P_pump_scaled varies from 0-1. For why again read the published paper on this topic. 
+
+
+
+
 
 
 Installation: 
