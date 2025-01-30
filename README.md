@@ -61,6 +61,84 @@ Lastly. The target_func and the check_function are what actually call the Luna.j
 <ins>Installation: </ins>
 Due to Luna.jl being written in Julia, and the BO algorithm in Python we have to make it so that a python code can run a Julia code and extract the produced data for analysis.
 
+Luna plus BO Code Installation Guide 
+1.	First install anaconda. Install the latest anaconda distribution from https://www.anaconda.com/download/success
+2.	Do just me, and note destination folder (currently: C:\Users\tk716\AppData\Local\anaconda3)
+3.	Add anaconda to my PATH variable
+
+Then install Julia.
+1.	Go to https://julialang.org/downloads/ and download the correct installer.  
+2.	Run the installer , add to path, note the install location ("C:\Users\tk716\AppData\Local\Programs\Julia-1.11.3" currently)
+3.	Once this is finished open the Julia command line via the appropriate short cut or by typing Julia in command prompt 
+4.	Then write the following commands and press enter.This will establish a connection between jupyter notebook and Julia. 
+using Pkg 
+Pkg.add("IJulia") 
+ 
+5.	If you now launch jupyter notebook and click “New”, the dropdown menu will give you the option to launch a notebook running a Julia kernel. 
+6.	To install Luna, again open the Julia Command line. Enter the following commands and press enter 
+using Pkg 
+Pkg.add("Luna") 
+7.	This will have successfully installed the Luna simulation. 
+Making Python be able to Julia code
+Python and Julia are two separate programming languages. However people have written code to allow one to run code in the other and then extract the data. We need to be able to make python
+
+1.	Install PyCall by running in the Julia REPL: 
+using Pkg
+Pkg.add("PyCall")
+2.	check it is using the Python interpreter desired:
+
+using PyCall
+PyCall.python
+
+3.	If the desired interpreter is anaconda, you can double check by importing a module that comes preinstalled
+using PyCall
+pd = pyimport("pandas")
+
+4.	If 3. Doesn’t work then you can set  the desired interpreter, run:
+using Pkg
+ENV["PYTHON"] = raw"C:\Users\mmm120\AppData\Local\anaconda3\python.exe"
+Pkg.build("PyCall")
+
+Check again the interpreter (two steps above), can also check that loads pandas.
+
+To exit the package manager (entered by typing  ]  , one can return to Julia by typing the same bracket again or by pressing the delete key.
+
+If when trying to run Julia code in Python (eg: Spyder), and the following error pops up:
+In Julia >= 0.7, above two paths to `libpython` have to match exactly 
+in order for PyJulia to work out-of-the-box.  To configure PyCall.jl to use 
+Python interpreter "C:\Users\mmm120\AppData\Local\anaconda3\python.exe", 
+run the following code in the Python REPL: 
+
+import julia 
+julia.install() 
+For more information, see: 
+    https://pyjulia.readthedocs.io/en/latest/troubleshooting.html 
+
+Run the indicated code in the python repl and will be solved.
+
+If ”UnsupportedPythonError: It seems your Julia and PyJulia setup are not supported” and points to Pycall and python having different interpreters, the pycall interpreter may have changed. 
+To check which interpreter it is using, run in Julia’s REPL: 
+using PyCall 
+PyCall.python 
+
+If it is not the anaconda python installation, change the path to your anaconda python installation (running in the PC command line: where python)
+using Pkg
+ENV["PYTHON"] = raw"C:\Users\RDcam\anaconda3\python.exe"
+Pkg.build("PyCall")
+
+BO
+Finally, install Bayesian Optimisation, by running in the anaconda prompt command line:
+conda install conda-forge::bayesian-optimization.
+
+As well as the SMT package:
+conda install conda-forge::smt
+
+
+
+
+
+
+
 
 <ins>Dependencies:</ins>
 Open source library for Bayesian Optimisation in python: (https://github.com/bayesian-optimization/BayesianOptimization)
