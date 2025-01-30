@@ -2,7 +2,7 @@
 
 In Development: Note that this code is still a work in progress. I am cleaning it up to make it more readable by people other than myself.
 
-
+<ins>text</ins>
 <u>Intorduction</u>
 Resonant dispersive wave generation is a technique which has been recently applied to hollow capillary fibres. It allows for the generation of high pulse energy ultrashort laser pulses of < 5 fs at previously very difficult to reach wavelengths . It involves sending a pump pulse at a longer wavelength into a hollow capillary fibre filled with a noble gas. The nonlinear dynamics that occur when the pump pulse interacts with the medium can lead to the generation of a near transform limited laser pulse at a much shorter wavelength. However, due to the inherently nonlinear nature of the dynamics that occur in this system, it is very difficult to predict analytically what system parameters are required to generate the optimal RDW (optimal is defined here as highest peak power, close to gaussian temporal pulse shape and a pulse duration of < 5fs). This is a stumbling block for researchers who are trying to implement a RDW generation system in their lab. How do they figure out what fibre and pulse parameters to use to generate their optimal RDW for whatever laser system they have in their lab?
 
