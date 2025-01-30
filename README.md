@@ -9,10 +9,12 @@ Resonant dispersive wave generation is a technique which has been recently appli
 This is where optimisation algorithms come into play. These algorithms are designed to identify the values of a functions variables that maximise said function. Here we are using Bayesian optimisation (BO). Luna.jl is a open source code base written in Julia that allows for the simulation of nonlinear processes in hollow capillary fibres, which includes RDW generation. Therefore by combining BO with Luna.jl we can let the optimisation algorithm determine what the system parameters are for generating the optimal RDW. 
 
 <ins>Experimental Overview</ins>
-We have a fused silica hollow capillary fibre with radius r (usually<500 micrometer), length L (less than a few m) and filled with a noble gas at pressure P (less than 10 bar). The pump pulse has a pulse energy E (usually less than a few mJ) and a pulse duration T (<30 fs) and a central wavlelength λ. Note the values in brackets are only order of magnitude and vary heavily depending on the pump pulse and the RDW that is desired.  All of these variables are called the system parameters. If the system parameters are chosen well we can generate a RDW at a central wavlength λ_RDW. I will not be covering the details of the underlying physics here. If you are interested there is extensive literature on the subject. Here is a link to a review paper https://doi.org/10.1063/5.0206108. 
+We have a fused silica hollow capillary fibre with radius r (usually<500 micrometer), length L (less than a few m) and filled with a noble gas at pressure P (less than 10 bar). The pump pulse has a pulse energy E (usually less than a few mJ) and a pulse duration T (<30 fs) and a central wavlelength λ. The pump pulse has a Gaussian spectrum and is transform limited. Note the values in brackets are only order of magnitude and vary heavily depending on the pump pulse and the RDW that is desired. They work best for a 800 nm pump wavelength trying to achieve a RDW at 200 nm.  All of these variables are called the system parameters. If the system parameters are chosen well we can generate a RDW at a central wavlength λ_RDW. I will not be covering the details of the underlying physics here. If you are interested there is extensive literature on the subject. Here is a link to a review paper https://doi.org/10.1063/5.0206108. 
+
+Note that the code as is is set up to optimise the RDW at a central wavelengh of 200 nm when driving with a pump pulse of 800 nm central wavelength. You need to edit the vital_func_for_optimisation.py file if you want to target other RDW wavelengths or pump with different pump wavelengths.
 
 <ins>Code Quickstart</ins>
-The below is the BO.py file.
+The below is the BO.py file. The vital_func_for_optimisation.py needs to be in the same directory as BO.py if not added to PATH.
 ```
 from vital_func_for_optimisation import BO
 pbounds = {
@@ -44,15 +46,22 @@ folder_path is the path to the folder where you want all the results of the opti
 
 
 
+<ins>Details on vital_func_for_optimisation.py: </ins>
+
+IMPORTANT! If you are wanting to pump your system with a pump pulse that has a central wavelength that is different than 800 nm you need to edit the appropirate variable in vital_func_for_optimisation.py. Its called input_wavelength and is in m (so 800 nm is 800e-9). Similarly if you want to optimise for a different radius you need to change the radius variable (in m so 75 micrometer is 75e-6). Also if you want to use a different gas than Helium you need to change the gas variable to either Ar (Argon), Ne (Neon). 
+
+Also 
 
 
 
 
-Installation: 
+<ins>Installation: </ins>
 Due to Luna.jl being written in Julia, and the BO algorithm in Python we have to make it so that a python code can run a Julia code and extract the produced data for analysis.
 
 
+<ins>Dependencies:</ins>
+Open source library for Bayesian Optimisation in python: (https://github.com/bayesian-optimization/BayesianOptimization)
 
-Dependencies: Open source library for Bayesian Optimisation in python: (https://github.com/bayesian-optimization/BayesianOptimization)
-
- Luna.jl (written in Julia) for simulating nonlinear dynamics in gas filled hollow capillary fibres. It uses pyJulia to let the two communicate (https://github.com/JuliaPy/pyjulia).
+Luna.jl (written in Julia) for simulating nonlinear dynamics in gas filled hollow capillary fibres. (https://github.com/LupoLab/Luna.jl)
+ 
+BO calls the Luna.jl simulations. Uses pyJulia to let the two communicate (https://github.com/JuliaPy/pyjulia).
